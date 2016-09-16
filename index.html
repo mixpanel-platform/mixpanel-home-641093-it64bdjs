@@ -199,41 +199,50 @@
       console.log(data);
       debugger
       //Write the headers
-      var row = ''
-      row += 'date, '
-      for(var i = 0; i < data.length; i++) {
-        for(key in data[i]) {
-          row += key + ','; 
-        }
-      }
-      CSV += row + '\r\n';
+      var header = ['program']
+      var rows = []
+      var months = []
+      var row
+      _.each(data["TEA (Bundle with push regardless of MDN)"], (val, month) => {
+        months.push(month)
+      })
+      months = months.sort()
+      header.concat(months)
+      rows.push(header.join(','))
+      _.each(data, (dates, program){
+        row.push(program)
+        _.each(months, month => row.push(dates[month]))
+        rows.push(row.join(','))
+        row = []
+      })
+      CSV = rows.join('/n')
       
-      // Create sorted  list of dates
-      for(key in data[0]){
-        // goes through each date in array element 0 with key == first event
-        for(date in data[0][key]) {
-          sortedDates.push(date);
-        }
-      }
-      sortedDates = sortedDates.sort();
+      // // Create sorted  list of dates
+      // for(key in data[0]){
+      //   // goes through each date in array element 0 with key == first event
+      //   for(date in data[0][key]) {
+      //     sortedDates.push(date);
+      //   }
+      // }
+      // sortedDates = sortedDates.sort();
       
-      //Write the data
+      // //Write the data
       
-      // goes through each date 
-      for(var a = 0; a < sortedDates.length; a++) {
-        // add date in first column
-        var row = '';
-        row += sortedDates[a] + ',';
-        // for the X events in data...
-        for(var i = 0; i < data.length; i++) {
-          // get the event name...
-          for(event in data[i]){
-            // use the event name and the current date we're on to get event count
-            row += data[i][event][sortedDates[a]] + ',';
-          }
-        }
-        CSV += row + '\r\n';
-      }
+      // // goes through each date 
+      // for(var a = 0; a < sortedDates.length; a++) {
+      //   // add date in first column
+      //   var row = '';
+      //   row += sortedDates[a] + ',';
+      //   // for the X events in data...
+      //   for(var i = 0; i < data.length; i++) {
+      //     // get the event name...
+      //     for(event in data[i]){
+      //       // use the event name and the current date we're on to get event count
+      //       row += data[i][event][sortedDates[a]] + ',';
+      //     }
+      //   }
+      //   CSV += row + '\r\n';
+      // }
       
       //Generate a file name
       var fileName = ReportTitle.replace(/ /g,"_");   
