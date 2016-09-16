@@ -9,21 +9,123 @@
   <body class="mixpanel-platform-body">
     <h1>Hello, World!</h1>
     <script>
+      var dateRange = {
+        from: "2015-09-01",
+        to: "2016-09-30"
+      }
+      
+      var unit = 'month'
       var funnels = [
-        {funnel_id:1313951,
-          from_date:"2015-09-30",
-          to_date:"2016-09-30",
+        {
+          funnel_id:1313951,
+          from_date:dateRange.from,
+          to_date: dateRange.to,
           limit:200,
           where:'(properties["CarrierName"] == "sprint" or properties["CarrierName"] == "Sprint")',
-          unit:'month'
-        }
+          unit: unit
+        },
+        {
+          funnel_id:1746083,
+          from_date:dateRange.from,
+          to_date: dateRange.to,
+          limit:200,
+          where:'(properties["Source"] == "Dynamic") and (properties["CarrierName"] == "Sprint")',
+          unit: unit
+        },
+        {
+          funnel_id:1747273,
+          from_date:dateRange.from,
+          to_date: dateRange.to,
+          limit:200,
+          where:'(properties["Source"] == "Fixed") and (properties["CarrierName"] == "Sprint")',
+          unit: unit
+        },
+        {
+          funnel_id:1803483,
+          from_date:dateRange.from,
+          to_date: dateRange.to,
+          limit:200,
+          where:'(properties["CarrierName"] == "Sprint")',
+          unit: unit
+        },
+        {
+          funnel_id:1831453,
+          from_date:dateRange.from,
+          to_date: dateRange.to,
+          limit:200,
+          where:'(properties["CarrierName"] == "Sprint")',
+          unit: unit
+        },
+        {
+          funnel_id:1146331,
+          from_date:dateRange.from,
+          to_date: dateRange.to,
+          limit:200,
+          where:'(properties["CarrierName"] == "sprint" or properties["CarrierName"] == "Sprint")',
+          unit: unit
+        },
+        {
+          funnel_id:1132231,
+          from_date:dateRange.from,
+          to_date: dateRange.to,
+          limit:200,
+          where:'(properties["CarrierName"] == "Sprint" or properties["CarrierName"] == "sprint")',
+          unit: unit
+        },
+        {
+          funnel_id:1503507,
+          from_date:dateRange.from,
+          to_date: dateRange.to,
+          limit:200,
+          where:'(properties["CarrierName"] == "Sprint" or properties["CarrierName"] == "sprint") and (properties["DeviceOsType"] == "iOS" or properties["DeviceOsType"] == "Ios")',
+          unit: unit
+        },
+        {
+          funnel_id:1306785,
+          from_date:dateRange.from,
+          to_date: dateRange.to,
+          limit:200,
+          unit: unit
+        },
+        {
+          funnel_id:1132237,
+          from_date:dateRange.from,
+          to_date: dateRange.to,
+          limit:200,
+          where:'(properties["CarrierName"] == "sprint" or properties["CarrierName"] == "Sprint")',
+          unit: unit
+        },
+        // funnel was missing properties
+        // {
+        //   funnel_id:1733549,
+        //   from_date:dateRange.from,
+        //   to_date: dateRange.to,
+        //   limit:200,
+        //   unit: unit
+        // },
+        {
+          funnel_id:1346873,
+          from_date:dateRange.from,
+          to_date: dateRange.to,
+          limit:200,
+          where:'(properties["CarrierName"] == "Sprint" or properties["CarrierName"] == "sprint")',
+          unit: unit
+        },
+        {
+          funnel_id:1291545,
+          from_date:dateRange.from,
+          to_date: dateRange.to,
+          limit:200,
+          where:'(properties["CarrierName"] == "sprint" or properties["CarrierName"] == "Sprint")',
+          unit: unit
+        },
         ]
         
       var programNames = [
         "TEA (Mixpanel regardless of MDN)",
         "TEA (Bundle with push regardless of MDN)",
         "Interaction in first 30 days",
-        "Post EULA Interaction 1st 7 Day Engagement for TEA customers",
+        //"Post EULA Interaction 1st 7 Day Engagement for TEA customers", Funnel Does not ExistjQuery171008561156666345471_1474051696805
         "Dynamic Card CTR",
         "Static Clickable Card CTR",
         "Feedback on Cards (% Positive)",
@@ -35,12 +137,34 @@
         "Welcome notification view rate",
         "Backup View",
         "Storage notification view rate",
-        "Lock Screen Notification",
+        // "Lock Screen Notification", funnel missing properties?
         "Battery Guide ",
         "Add 2nd Device"
         ]  
       var queryPromises = []
       // add segmentation requests to queryPromises  
+      queryPromises.push(MP.api.segment(
+        {
+          event:'GetStartedScreen_Click',
+          type:'general',
+          where:'(properties["CarrierName"] == "Sprint") and (properties["ActionId"] == "GetStartedButton") and (properties["ProgramName"] != "Sprint Whitelist")',
+          limit:150,
+          on:'properties["DeviceOsType"]',
+          from_date: dateRange.from,
+          to_date: dateRange.to
+        })
+      )
+      
+      queryPromises.push(MP.api.segment(
+        {
+          event:'GetStartedScreen_Click',
+          type:'general',
+          where:'(properties["CarrierName"] == "Sprint") and (properties["ActionId"] == "GetStartedButton") and (properties["ProgramName"] != "Sprint Whitelist") and user["IsPushNotificationTokenExpired"] == false',
+          limit:150,
+          from_date: dateRange.from,
+          to_date: dateRange.to
+        })
+      )
       _.each(funnels, funnel => queryPromises.push(MP.api.query('api/2.0/funnels/',funnel)))  
       Promise.all(queryPromises).then(function(promises){
         debugger
