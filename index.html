@@ -184,7 +184,10 @@
         debugger
         var i = 0
         _.each(promises, function(funnel){
-          res[programNames[i]] = funnel.data
+          res[programNames[i]] = {}
+          _.each(funnel.data, function(conv, month){
+            res[programNames[i]][month] = conv.steps[conv.steps.length - 1]["overall_conv_ratio"]
+          })
           i++
         })
         debugger
