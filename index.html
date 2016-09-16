@@ -41,7 +41,7 @@
         ]  
       var queryPromises = []
       // add segmentation requests to queryPromises  
-      _.each(funnels, funnel => queryPromises.push(MP.api.funnel(funnel)))  
+      _.each(funnels, funnel => queryPromises.push(MP.api.query('api/2.0/funnels/',funnel)))  
       Promise.all(queryPromises).then(function(promises){
         debugger
       })
