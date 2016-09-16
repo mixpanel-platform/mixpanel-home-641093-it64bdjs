@@ -9,7 +9,40 @@
   <body class="mixpanel-platform-body">
     <h1>Hello, World!</h1>
     <script>
-      // Run queries and display results here
+      var funnels = [
+        {funnel_id:1313951
+          from_date:"2015-09-30"
+          to_date:"2016-09-30"
+          limit:200,
+          where:'(properties["CarrierName"] == "sprint" or properties["CarrierName"] == "Sprint")',
+          unit:'month'
+        }
+        ]
+        
+      var programNames = [
+        "TEA (Mixpanel regardless of MDN)",
+        "TEA (Bundle with push regardless of MDN)",
+        "Interaction in first 30 days",
+        "Post EULA Interaction 1st 7 Day Engagement for TEA customers",
+        "Dynamic Card CTR",
+        "Static Clickable Card CTR",
+        "Feedback on Cards (% Positive)",
+        "Feedback on Cards Total Ratings",
+        "Feedback on Notifications (% Positive)",
+        "Feedback on Notifications Total Ratings",
+        "Onboarding Completion",
+        "Onboard notification view rate",
+        "Welcome notification view rate",
+        "Backup View",
+        "Storage notification view rate",
+        "Lock Screen Notification",
+        "Battery Guide ",
+        "Add 2nd Device"
+        ]  
+      var queryPromises = []
+      // add segmentation requests to queryPromises  
+      _.each(funnels, funnel => queryPromises.push(MP.api.funnels(funnel)))  
+      Promise.all(queryPromises).then(promises => debugger)
     </script>
   </body>
 </html>
