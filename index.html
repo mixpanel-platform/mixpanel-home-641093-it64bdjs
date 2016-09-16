@@ -181,7 +181,6 @@
         _.each(segTwo.json.GetStartedScreen_Click, (val, month) => 
           res["TEA (Bundle with push regardless of MDN)"][month]=val
         )
-        debugger
         var i = 0
         _.each(promises, function(funnel){
           res[programNames[i]] = {}
@@ -207,7 +206,7 @@
         months.push(month)
       })
       months = months.sort()
-      header.concat(months)
+      header = header.concat(months)
       rows.push(header.join(','))
       _.each(data, (dates, program) => {
         row.push(program)
