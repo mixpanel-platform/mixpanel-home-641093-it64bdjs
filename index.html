@@ -214,45 +214,13 @@
         rows.push(row.join(','))
         row = []
       })
-      CSV = rows.join('/n')
-      
-      // // Create sorted  list of dates
-      // for(key in data[0]){
-      //   // goes through each date in array element 0 with key == first event
-      //   for(date in data[0][key]) {
-      //     sortedDates.push(date);
-      //   }
-      // }
-      // sortedDates = sortedDates.sort();
-      
-      // //Write the data
-      
-      // // goes through each date 
-      // for(var a = 0; a < sortedDates.length; a++) {
-      //   // add date in first column
-      //   var row = '';
-      //   row += sortedDates[a] + ',';
-      //   // for the X events in data...
-      //   for(var i = 0; i < data.length; i++) {
-      //     // get the event name...
-      //     for(event in data[i]){
-      //       // use the event name and the current date we're on to get event count
-      //       row += data[i][event][sortedDates[a]] + ',';
-      //     }
-      //   }
-      //   CSV += row + '\r\n';
-      // }
+      CSV = rows.join('\n')
       
       //Generate a file name
       var fileName = ReportTitle.replace(/ /g,"_");   
   
       //Initialize file format you want csv or xls
       var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
-  
-      // Now the little tricky part.
-      // you can use either>> window.open(uri);
-      // but this will not work in some browsers
-      // or you will not get the correct file extension    
   
       //this trick will generate a temp <a /> tag
       var link = document.createElement("a");    
