@@ -189,7 +189,7 @@
           })
           i++
         })
-        downloadCSV(res)
+        downloadCSV(res, 'TEA Dashboards' + ' ' + new Date(event.time).toISOString().substr(0, 10))
       })
       
     function downloadCSV(data, ReportTitle) {
