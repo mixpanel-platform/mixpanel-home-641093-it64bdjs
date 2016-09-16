@@ -122,8 +122,6 @@
         ]
         
       var programNames = [
-        "TEA (Mixpanel regardless of MDN)",
-        "TEA (Bundle with push regardless of MDN)",
         "Interaction in first 30 days",
         //"Post EULA Interaction 1st 7 Day Engagement for TEA customers", Funnel Does not ExistjQuery171008561156666345471_1474051696807
         "Dynamic Card CTR",
@@ -169,11 +167,26 @@
       )
       _.each(funnels, funnel => queryPromises.push(MP.api.query('api/2.0/funnels/',funnel)))  
       Promise.all(queryPromises).then(function(promises){
+        var res = {}
+        // For each result set it to a csv 
+        // where key is the index of the request
+        
+        
         var segOne = promises.shift()
+        res["TEA (Mixpanel regardless of MDN)"] = {}
+        // What to do with segOne?
+        
         var segTwo = promises.shift()
+        res["TEA (Bundle with push regardless of MDN)"] = {}
+        _.each(segTwo.json.GetStartedScreen_Click, (val, month) => 
+          res["TEA (Bundle with push regardless of MDN)"][month]=val
+        ))
         debugger
+        var i = 0
         _.each(promises, function(funnel){
-          debugger
+          res[programNames[i]] = {}
+          _.each(funnel,function(bla){debugger})
+          i++
         })
       })
     </script>
