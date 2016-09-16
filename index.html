@@ -209,7 +209,7 @@
       months = months.sort()
       header.concat(months)
       rows.push(header.join(','))
-      _.each(data, (dates, program){
+      _.each(data, (dates, program) => {
         row.push(program)
         _.each(months, month => row.push(dates[month]))
         rows.push(row.join(','))
