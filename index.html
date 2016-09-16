@@ -184,10 +184,10 @@
         debugger
         var i = 0
         _.each(promises, function(funnel){
-          res[programNames[i]] = {}
-          _.each(funnel,function(bla){debugger})
+          res[programNames[i]] = funnel.data
           i++
         })
+        debugger
       })
     </script>
   </body>
